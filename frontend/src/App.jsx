@@ -2,6 +2,7 @@ import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-d
 import { getUser, isLoggedIn } from './utils/auth';
 
 import LoginPage from './pages/LoginPage';
+import ScreeningPage from './pages/ScreeningPage';
 import SignupPage from './pages/SignupPage';
 
 // import ScreeningPage from './pages/ScreeningPage';
@@ -44,7 +45,7 @@ export default function App() {
             path="/screening"
             element={
               <ProtectedRoute requiredRole="student">
-                <div className="p-4">Mental Health Screening (Coming Soon)</div>
+                <ScreeningPage />
               </ProtectedRoute>
             }
           />
