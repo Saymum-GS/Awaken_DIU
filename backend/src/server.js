@@ -9,12 +9,16 @@ const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const screeningRoutes = require('./routes/screeningRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const chatRoutes = require('./routes/chatRoutes');
+const bookingRoutes = require('./routes/bookingRoutes');
 
 // Import socket handler
 const initializeSocket = require('./socket/chatHandler');
 
 const app = express();
 const server = http.createServer(app);
+
+// Socket.IO setup
 const io = new Server(server, {
   cors: {
     origin: '*',
@@ -31,7 +35,7 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 
-// Routes
+// Base routes
 app.get('/', (req, res) => {
   res.json({ message: 'Welcome to DIU Mental Health Platform' });
 });
@@ -40,24 +44,26 @@ app.get('/health', (req, res) => {
   res.json({ status: 'Server is running ✅' });
 });
 
-// API Routes
+// API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/screening', screeningRoutes);
-app.use('/api/chat', require('./routes/chatRoutes'));
+app.use('/api/chat', chatRoutes);
 app.use('/api/admin', adminRoutes);
-app.use('/api/booking', require('./routes/bookingRoutes'));
+app.use('/api/booking', bookingRoutes);
 
-// Initialize Socket.io
+// Initialize Socket.IO handlers
 initializeSocket(io);
 
-// Error handling
+// Global error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ error: 'Something went wrong!' });
+  res.status(500).json({
+    error: 'Something went wrong!',
+  });
 });
 
-// Start server (use server instead of app.listen)
+// Start server
 server.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
-  console.log(`🔌 WebSocket ready for connections`);
+  console.log('🔌 WebSocket ready for connections');
 });
