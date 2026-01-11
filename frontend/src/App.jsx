@@ -1,14 +1,13 @@
 import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { getUser, isLoggedIn } from './utils/auth';
 
+import BookingPage from './pages/BookingPage';
+import ChatPage from './pages/ChatPage';
 import LoginPage from './pages/LoginPage';
+import MyAppointmentsPage from './pages/MyAppointmentsPage';
 import ScreeningPage from './pages/ScreeningPage';
 import SignupPage from './pages/SignupPage';
-
-// import ScreeningPage from './pages/ScreeningPage';
-// import ChatPage from './pages/ChatPage';
-// import BookingPage from './pages/BookingPage';
-// import AdminDashboard from './pages/AdminDashboard';
+import VolunteerDashboard from './pages/VolunteerDashboard';
 
 // Protected Route Component
 const ProtectedRoute = ({ children, requiredRole }) => {
@@ -54,7 +53,7 @@ export default function App() {
             path="/chat"
             element={
               <ProtectedRoute requiredRole="student">
-                <div className="p-4">Chat with Volunteer (Coming Soon)</div>
+                <ChatPage />
               </ProtectedRoute>
             }
           />
@@ -63,7 +62,7 @@ export default function App() {
             path="/book-appointment"
             element={
               <ProtectedRoute requiredRole="student">
-                <div className="p-4">Book Appointment (Coming Soon)</div>
+                <BookingPage />
               </ProtectedRoute>
             }
           />
@@ -72,7 +71,7 @@ export default function App() {
             path="/my-appointments"
             element={
               <ProtectedRoute requiredRole="student">
-                <div className="p-4">My Appointments (Coming Soon)</div>
+                <MyAppointmentsPage />
               </ProtectedRoute>
             }
           />
@@ -82,7 +81,7 @@ export default function App() {
             path="/volunteer-dashboard"
             element={
               <ProtectedRoute requiredRole="volunteer">
-                <div className="p-4">Volunteer Dashboard (Coming Soon)</div>
+                <VolunteerDashboard />
               </ProtectedRoute>
             }
           />
